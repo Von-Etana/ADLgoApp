@@ -40,7 +40,7 @@ export default function LoginScreen() {
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.logo}>QuickDeliver</Text>
+          <Text style={styles.logo}>ADLgo</Text>
           <Text style={styles.tagline}>Fast & Reliable Delivery Service</Text>
         </View>
 
