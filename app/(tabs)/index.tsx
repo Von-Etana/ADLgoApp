@@ -1,19 +1,21 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Package, CreditCard, MapPin, TrendingUp, Bell } from 'lucide-react-native';
+import { Package, CreditCard, MapPin, TrendingUp, Bell, Wallet } from 'lucide-react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { COLORS } from '@/lib/constants';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const { profile } = useAuth();
-  const [activeOrders, setActiveOrders] = useState(0);
-  const [stats, setStats] = useState({ total: 0, completed: 0, pending: 0 });
+   const router = useRouter();
+   const { profile } = useAuth();
+   const [activeOrders, setActiveOrders] = useState(0);
+   const [stats, setStats] = useState({ total: 0, completed: 0, pending: 0 });
+   const [walletBalance, setWalletBalance] = useState(0);
 
   useEffect(() => {
     loadStats();
+    loadWalletBalance();
   }, []);
 
   const loadStats = async () => {
@@ -35,6 +37,33 @@ export default function HomeScreen() {
       }
     } catch (error) {
       console.error('Error loading stats:', error);
+    }
+  };
+
+  const loadWalletBalance = async () => {
+    if (!profile) return;
+
+    try {
+      const { data: wallet } = await supabase
+        .from('user_wallets')
+        .select('balance')
+        .eq('user_id', profile.id)
+        .single();
+
+      if (wallet) {
+        setWalletBalance(wallet.balance);
+      } else {
+        // Create wallet if it doesn't exist
+        const { error } = await supabase
+          .from('user_wallets')
+          .insert({ user_id: profile.id, balance: 0 });
+
+        if (error) console.error('Error creating wallet:', error);
+        setWalletBalance(0);
+      }
+    } catch (error) {
+      console.error('Error loading wallet balance:', error);
+      setWalletBalance(0);
     }
   };
 
@@ -74,6 +103,27 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+      {/* Wallet Balance Card */}
+      <View style={styles.walletCard}>
+        <View style={styles.walletHeader}>
+          <View style={styles.walletIcon}>
+            <Wallet size={24} color={COLORS.primary} />
+          </View>
+          <View style={styles.walletInfo}>
+            <Text style={styles.walletLabel}>Wallet Balance</Text>
+            <Text style={styles.walletBalance}>₦{walletBalance.toLocaleString()}</Text>
+          </View>
+        </View>
+        <View style={styles.walletActions}>
+          <TouchableOpacity style={styles.walletButton} onPress={() => router.push('/wallet')}>
+            <Text style={styles.walletButtonText}>Add Money</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.walletButton} onPress={() => router.push('/wallet')}>
+            <Text style={styles.walletButtonText}>History</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <Text style={styles.sectionTitle}>Quick Actions</Text>
 
@@ -344,6 +394,56 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   promoButtonText: {
+    color: COLORS.text.primary,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  walletCard: {
+    marginHorizontal: 24,
+    backgroundColor: COLORS.background.secondary,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 24,
+  },
+  walletHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  walletIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: COLORS.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  walletInfo: {
+    flex: 1,
+  },
+  walletLabel: {
+    fontSize: 14,
+    color: COLORS.text.secondary,
+    marginBottom: 4,
+  },
+  walletBalance: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: COLORS.primary,
+  },
+  walletActions: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  walletButton: {
+    flex: 1,
+    backgroundColor: COLORS.primary,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  walletButtonText: {
     color: COLORS.text.primary,
     fontSize: 14,
     fontWeight: '600',

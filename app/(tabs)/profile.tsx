@@ -53,7 +53,7 @@ export default function ProfileScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Account Information</Text>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert('Edit Profile', 'Profile editing functionality will be implemented')}>
           <View style={styles.menuItemLeft}>
             <User size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Edit Profile</Text>
@@ -61,7 +61,7 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert('Phone Number', 'Phone number editing functionality will be implemented')}>
           <View style={styles.menuItemLeft}>
             <Phone size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Phone Number</Text>
@@ -69,7 +69,7 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemValue}>{profile?.phone || 'Add phone'}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert('Email Address', 'Email editing functionality will be implemented')}>
           <View style={styles.menuItemLeft}>
             <Mail size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Email Address</Text>
@@ -81,7 +81,7 @@ export default function ProfileScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Settings</Text>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/payments')}>
           <View style={styles.menuItemLeft}>
             <CreditCard size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Payment Methods</Text>
@@ -89,7 +89,7 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/notifications')}>
           <View style={styles.menuItemLeft}>
             <Bell size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Notifications</Text>
@@ -97,7 +97,7 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert('Privacy & Security', 'Privacy and security settings will be implemented')}>
           <View style={styles.menuItemLeft}>
             <Shield size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Privacy & Security</Text>
@@ -105,7 +105,7 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/support')}>
           <View style={styles.menuItemLeft}>
             <HelpCircle size={20} color={COLORS.text.secondary} />
             <Text style={styles.menuItemText}>Help & Support</Text>
