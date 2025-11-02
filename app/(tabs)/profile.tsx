@@ -97,10 +97,10 @@ export default function ProfileScreen() {
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => Alert.alert('Privacy & Security', 'Privacy and security settings will be implemented')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/kyc')}>
           <View style={styles.menuItemLeft}>
             <Shield size={20} color={COLORS.text.secondary} />
-            <Text style={styles.menuItemText}>Privacy & Security</Text>
+            <Text style={styles.menuItemText}>KYC Verification</Text>
           </View>
           <Text style={styles.menuItemArrow}>›</Text>
         </TouchableOpacity>
