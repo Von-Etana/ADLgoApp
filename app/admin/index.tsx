@@ -16,7 +16,7 @@ export default function AdminPanelScreen() {
     totalOrders: 0,
     totalRevenue: 0
   });
-  const [pendingVerifications, setPendingVerifications] = useState([]);
+  const [pendingVerifications, setPendingVerifications] = useState<any[]>([]);
 
   useEffect(() => {
     loadAdminStats();

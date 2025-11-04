@@ -10,7 +10,7 @@ interface Profile {
   id: string;
   full_name: string | null;
   email: string;
-  phone?: string;
+  phone: string | null;
   avatar_url?: string;
   role: 'customer' | 'partner' | 'both' | 'admin';
   kyc_status?: string;
@@ -145,7 +145,7 @@ export default function ProfileScreen() {
     try {
       setIsLoading(true);
       setNavigationError(null);
-      await router.push(route);
+      await router.push(route as any);
     } catch (error) {
       console.error('Navigation error:', error);
       setNavigationError(`Failed to navigate to ${route}`);
@@ -173,101 +173,102 @@ export default function ProfileScreen() {
           <Text style={styles.headerSubtitle}>Manage your account settings</Text>
         </View>
 
-      <ProfileCard profile={profile} />
+        <ProfileCard profile={profile} />
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account Information</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Account Information</Text>
 
-        <MenuItem
-          icon={User}
-          title="Edit Profile"
-          onPress={() => Alert.alert('Edit Profile', 'Profile editing functionality will be implemented')}
-          accessibilityLabel="Edit profile information"
-          accessibilityHint="Opens profile editing screen"
-        />
+          <MenuItem
+            icon={User}
+            title="Edit Profile"
+            onPress={() => Alert.alert('Edit Profile', 'Profile editing functionality will be implemented')}
+            accessibilityLabel="Edit profile information"
+            accessibilityHint="Opens profile editing screen"
+          />
 
-        <MenuItem
-          icon={Phone}
-          title="Phone Number"
-          value={profile?.phone || 'Add phone'}
-          onPress={() => Alert.alert('Phone Number', 'Phone number editing functionality will be implemented')}
-          accessibilityLabel="Edit phone number"
-          accessibilityHint="Opens phone number editing screen"
-        />
+          <MenuItem
+            icon={Phone}
+            title="Phone Number"
+            value={profile?.phone ?? 'Add phone'}
+            onPress={() => Alert.alert('Phone Number', 'Phone number editing functionality will be implemented')}
+            accessibilityLabel="Edit phone number"
+            accessibilityHint="Opens phone number editing screen"
+          />
 
-        <MenuItem
-          icon={Mail}
-          title="Email Address"
-          value={profile?.email}
-          onPress={() => Alert.alert('Email Address', 'Email editing functionality will be implemented')}
-          accessibilityLabel="View email address"
-          accessibilityHint="Displays current email address"
-        />
-      </View>
+          <MenuItem
+            icon={Mail}
+            title="Email Address"
+            value={profile?.email}
+            onPress={() => Alert.alert('Email Address', 'Email editing functionality will be implemented')}
+            accessibilityLabel="View email address"
+            accessibilityHint="Displays current email address"
+          />
+        </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Settings</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Settings</Text>
 
-        <TouchableOpacity
-          style={styles.menuItem}
-          onPress={() => handleNavigation('/payments', 'Payment methods screen not available')}
-          accessibilityLabel="Navigate to payment methods"
-          accessibilityHint="Opens screen to manage your payment methods"
-        >
-          <View style={styles.menuItemLeft}>
-            <CreditCard size={20} color={COLORS.text.secondary} />
-            <Text style={styles.menuItemText}>Payment Methods</Text>
-          </View>
-          <Text style={styles.menuItemArrow}>›</Text>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => handleNavigation('/payments', 'Payment methods screen not available')}
+            accessibilityLabel="Navigate to payment methods"
+            accessibilityHint="Opens screen to manage your payment methods"
+          >
+            <View style={styles.menuItemLeft}>
+              <CreditCard size={20} color={COLORS.text.secondary} />
+              <Text style={styles.menuItemText}>Payment Methods</Text>
+            </View>
+            <Text style={styles.menuItemArrow}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => handleNavigation('/notifications', 'Notifications screen not available')}
+            accessibilityLabel="Navigate to notifications settings"
+            accessibilityHint="Opens screen to manage your notification preferences"
+          >
+            <View style={styles.menuItemLeft}>
+              <Bell size={20} color={COLORS.text.secondary} />
+              <Text style={styles.menuItemText}>Notifications</Text>
+            </View>
+            <Text style={styles.menuItemArrow}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => handleNavigation('/kyc', 'KYC verification screen not available')}
+            accessibilityLabel="Navigate to KYC verification"
+            accessibilityHint="Opens screen to complete your identity verification"
+          >
+            <View style={styles.menuItemLeft}>
+              <Shield size={20} color={COLORS.text.secondary} />
+              <Text style={styles.menuItemText}>KYC Verification</Text>
+            </View>
+            <Text style={styles.menuItemArrow}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => handleNavigation('/support', 'Support screen not available')}
+            accessibilityLabel="Navigate to help and support"
+            accessibilityHint="Opens screen to get help and contact support"
+          >
+            <View style={styles.menuItemLeft}>
+              <HelpCircle size={20} color={COLORS.text.secondary} />
+              <Text style={styles.menuItemText}>Help & Support</Text>
+            </View>
+            <Text style={styles.menuItemArrow}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+          <LogOut size={20} color={COLORS.error} />
+          <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.menuItem}
-          onPress={() => handleNavigation('/notifications', 'Notifications screen not available')}
-          accessibilityLabel="Navigate to notifications settings"
-          accessibilityHint="Opens screen to manage your notification preferences"
-        >
-          <View style={styles.menuItemLeft}>
-            <Bell size={20} color={COLORS.text.secondary} />
-            <Text style={styles.menuItemText}>Notifications</Text>
-          </View>
-          <Text style={styles.menuItemArrow}>›</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.menuItem}
-          onPress={() => handleNavigation('/kyc', 'KYC verification screen not available')}
-          accessibilityLabel="Navigate to KYC verification"
-          accessibilityHint="Opens screen to complete your identity verification"
-        >
-          <View style={styles.menuItemLeft}>
-            <Shield size={20} color={COLORS.text.secondary} />
-            <Text style={styles.menuItemText}>KYC Verification</Text>
-          </View>
-          <Text style={styles.menuItemArrow}>›</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.menuItem}
-          onPress={() => handleNavigation('/support', 'Support screen not available')}
-          accessibilityLabel="Navigate to help and support"
-          accessibilityHint="Opens screen to get help and contact support"
-        >
-          <View style={styles.menuItemLeft}>
-            <HelpCircle size={20} color={COLORS.text.secondary} />
-            <Text style={styles.menuItemText}>Help & Support</Text>
-          </View>
-          <Text style={styles.menuItemArrow}>›</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-        <LogOut size={20} color={COLORS.error} />
-        <Text style={styles.signOutText}>Sign Out</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.version}>Version 1.0.0</Text>
-    </ScrollView>
+        <Text style={styles.version}>Version 1.0.0</Text>
+      </ScrollView>
+    </ErrorBoundary>
   );
 }
 
